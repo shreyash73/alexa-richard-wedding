@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg-primary: #fffdfb;
+  --color-bg-secondary: #eef4f8;
+  --color-text-primary: #1a1916;
+  --color-text-secondary: #4a4a4a;
+  --color-accent: #52839c;
+  --color-accent-hover: #64a0bd;
+  --color-sandy-gold: #dfc48e;
+  --color-border: #dce8ee;
+  
+  --font-serif: var(--font-serif-cormorant), Georgia, serif;
+  --font-sans: var(--font-sans-inter), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-sandy-gold: var(--color-sandy-gold);
+  --color-border: var(--color-border);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom transitions and utility classes */
+.transition-premium {
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hide scrollbar when envelope is closed */
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
+/* Custom scratch card canvas styling */
+.scratch-canvas {
+  touch-action: none;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23dfc48e' opacity='0.7'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+/* Premium selection style */
+::selection {
+  background-color: var(--color-accent);
+  color: #ffffff;
 }
