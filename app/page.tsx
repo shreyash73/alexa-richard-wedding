@@ -108,6 +108,9 @@ export default function Home() {
         {/* Wedding & Reception cards — continues the same BH5 gradient */}
         <WeddingReceptionSection />
 
+        {/* Venue */}
+        <VenueSection />
+
         {/* Warm greeting card */}
         <section className="py-24 px-4 bg-bg-primary flex flex-col items-center select-text">
           <div className="w-full max-w-2xl text-center flex flex-col items-center">
@@ -145,8 +148,7 @@ export default function Home() {
         {/* Wedding festivities timeline */}
         <ScheduleTimeline />
 
-        {/* Venue */}
-        <VenueSection />
+
 
         {/* Dress code */}
         <DressCodePalette />
