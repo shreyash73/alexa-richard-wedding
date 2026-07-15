@@ -13,9 +13,7 @@ export default function MusicPlayer({ isPlaying, setIsPlaying }: MusicPlayerProp
 
   useEffect(() => {
     // Initialize audio element
-    const audio = new Audio(
-      "https://dl.dropboxusercontent.com/scl/fi/285kk2yfg08clajeatn69/Forever-and-Ever-and-Always-The-Wedding-Song-Ryan-Mack.mp3?rlkey=m2pfp93yj32k9ifqse77mo6vx"
-    );
+    const audio = new Audio("/alexa-richard-wedding/forever-between-flowers.mp3");
     audio.loop = true;
     audioRef.current = audio;
 
@@ -43,7 +41,11 @@ export default function MusicPlayer({ isPlaying, setIsPlaying }: MusicPlayerProp
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+    <div
+      className="fixed bottom-6 z-50 flex items-center gap-3"
+      // Hug the 9:16 stage's right edge on wide screens, 1.5rem on phones
+      style={{ right: "max(1.5rem, calc(50vw - 28.125vh + 1.5rem))" }}
+    >
       {/* Visualizer bars */}
       {isPlaying && (
         <div className="flex items-end gap-[3px] h-5 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-border/40 transition-premium">

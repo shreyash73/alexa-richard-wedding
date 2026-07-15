@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
 
 export default function DressCodePalette() {
   const circles = [
-    { bg: "#f2cac9", label: "Pastel Pink" },
-    { bg: "#d2dfe6", label: "Soft Blue" },
-    { bg: "#ede5cc", label: "Sandy Beige" },
-    { bg: "#dfc48e", label: "Warm Gold" },
-    { bg: "#c4d3dc", label: "Muted Grey" },
+    { bg: "#e69a1f", label: "Marigold" },
+    { bg: "#b5402f", label: "Terracotta" },
+    { bg: "#7a1f2b", label: "Deep Maroon" },
+    { bg: "#c79a3a", label: "Antique Gold" },
+    { bg: "#7e8b52", label: "Sage" },
   ];
 
   return (
@@ -19,72 +19,58 @@ export default function DressCodePalette() {
           <span className="text-xs uppercase tracking-[0.25em] text-accent font-semibold">
             The Aesthetic
           </span>
-          <h2 className="font-serif italic text-4xl text-text-primary mt-2">
+          <h2 className="font-display italic text-4xl md:text-5xl text-text-primary mt-2">
             Dress Code
           </h2>
+          <div className="ornament-divider mt-5 mx-auto max-w-xs">
+            <span className="text-lg">✦</span>
+          </div>
         </div>
 
-        {/* Content Details */}
-        <div className="flex flex-col items-center w-full max-w-2xl bg-white/60 hover:bg-white border border-border/30 rounded-2xl p-8 sm:p-12 shadow-sm transition-premium select-text">
-          <p className="text-center text-sm text-text-secondary leading-relaxed font-light mb-8 max-w-md">
-            We would be very happy if your outfit is in the colours of the wedding theme. Please use the palette below as your guide:
+        {/* Content */}
+        <div className="flex flex-col items-center w-full max-w-2xl bg-white/70 hover:bg-white border border-gold/20 rounded-2xl p-8 sm:p-12 shadow-sm transition-premium select-text">
+          <p className="text-center text-sm text-text-secondary leading-relaxed font-light mb-10 max-w-md">
+            We would be delighted to see you dressed in festive Indian attire. Let these warm, vibrant tones inspire your outfits across the celebrations:
           </p>
 
-          {/* Color Circles Image from Original */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full max-w-[280px] aspect-[4.5] flex items-center justify-center mb-10 select-none"
-          >
-            <img
-              src="https://static.tildacdn.net/tild3164-6534-4234-b037-396637343432/Group_23_6.png"
-              alt="Wedding Theme Colors"
-              className="w-full h-auto object-contain filter saturate-[0.95]"
-            />
-          </motion.div>
-
-          {/* Interactive CSS Color Swatch Rows */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-10 select-none">
+          {/* Color swatches */}
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-7 mb-10 select-none">
             {circles.map((swatch, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.1 }}
-                className="flex flex-col items-center gap-1.5"
-              >
-                <div
-                  className="w-8 h-8 rounded-full shadow-inner border border-black/5"
-                  style={{ backgroundColor: swatch.bg }}
-                />
-                <span className="text-[10px] uppercase tracking-wider text-text-secondary font-light">
-                  {swatch.label}
-                </span>
-              </motion.div>
+              <Reveal key={idx} scale={0.6} duration={0.5} delay={idx * 0.08}>
+                {/* hover lift lives on the child so it doesn't fight the
+                    entrance transform GSAP leaves on the wrapper */}
+                <div className="flex flex-col items-center gap-2 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
+                  <div
+                    className="w-12 h-12 rounded-full shadow-md border-2 border-white"
+                    style={{ backgroundColor: swatch.bg, boxShadow: `0 4px 14px ${swatch.bg}55` }}
+                  />
+                  <span className="text-[10px] uppercase tracking-wider text-text-secondary font-medium">
+                    {swatch.label}
+                  </span>
+                </div>
+              </Reveal>
             ))}
           </div>
 
-          <div className="w-full h-[1px] bg-border/60 mb-8" />
+          <div className="w-full h-[1px] bg-gold/25 mb-8" />
 
-          {/* Dress Guidelines Columns */}
+          {/* Guidelines */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
-            {/* Ladies */}
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-              <h4 className="font-serif italic text-xl font-medium text-accent mb-2">
+              <h4 className="font-display italic text-xl font-medium text-accent mb-2">
                 For Ladies
               </h4>
               <p className="text-xs sm:text-sm text-text-secondary leading-relaxed font-light">
-                Elegant summer dresses in pastel tones. We recommend bringing a hat and sunglasses for outdoor comfort during the cocktail hour.
+                Sarees, lehengas, or anarkalis in bright festive hues. Bright florals for the Haldi, and your finest silks and jewellery for the Wedding & Reception.
               </p>
             </div>
 
-            {/* Gentlemen */}
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-              <h4 className="font-serif italic text-xl font-medium text-accent mb-2">
+              <h4 className="font-display italic text-xl font-medium text-accent mb-2">
                 For Gentlemen
               </h4>
               <p className="text-xs sm:text-sm text-text-secondary leading-relaxed font-light">
-                Suits or shirts in classic shades. Grey, blue, brown, and beige are perfect choices for the outdoor setting.
+                Kurtas and sherwanis in warm tones. Keep it light and colourful for the daytime functions, and go regal for the evening celebrations.
               </p>
             </div>
           </div>

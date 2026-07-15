@@ -1,76 +1,90 @@
 "use client";
 
-import { motion } from "framer-motion";
+/**
+ * HeroSection — the opening frame. Ambience (lantern sky, empty aisle) →
+ * the couple at the balcony crossfades in on mount and simply stays put.
+ * No ScrollTrigger, no pin — this scrolls normally like any other section;
+ * Save the Date is its own section right after (see SaveTheDate.tsx).
+ */
+
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ChevronDown } from "lucide-react";
 
+const BG_SRC = "/alexa-richard-wedding/main-bg-blur.webp";
+const NAMES_SRC = "/alexa-richard-wedding/main-names.webp";
+
+const COVER_IMG: React.CSSProperties = {
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  objectPosition: "center",
+  userSelect: "none",
+};
+
 export default function HeroSection() {
+  const sceneRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      // Entrance: the ambience settles as the envelope's light fades away,
+      // the blurred backdrop fades out to reveal the sharp couple,
+      // then the names rise in — all mount-time, nothing tied to scroll.
+      gsap.fromTo(
+        ".hero-img",
+        { scale: 1.06, opacity: 1 },
+        { scale: 1.00, opacity: 0, duration: 1.4, delay: 0.6, ease: "power2.out" }
+      );
+      gsap.from(".hero-names-img", {
+        opacity: 0, y: 26, duration: 1.6, delay: 0.45, ease: "power2.out",
+      });
+    },
+    { scope: sceneRef }
+  );
+
   return (
-    <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-bg-secondary select-none">
-      {/* Background Video Loop */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover scale-105 filter saturate-[0.85] contrast-[1.05]"
+    <section ref={sceneRef} className="relative h-screen w-full overflow-hidden select-none bg-transparent">
+      {/* Clean lantern backdrop — visible immediately after the envelope opens, then fades out */}
+      <img
+        className="hero-img"
+        src={BG_SRC}
+        alt="Sky lanterns rising over a candle-lit aisle"
+        draggable={false}
+        style={{ ...COVER_IMG, zIndex: 1 }}
+      />
+
+      {/* Names lockup — centred over the sunset glow. Centering lives on the
+          wrapper so GSAP can animate the inner img's transform freely. */}
+      <div
+        className="hero-names-wrap"
+        style={{
+          position: "absolute", top: "50%", left: "50%",
+          transform: "translate(-50%, -50%)",
+          // Lockup canvas has generous transparent padding — oversizing past
+          // the viewport keeps the actual text comfortably on screen
+          width: "min(140%, 760px)", zIndex: 5, pointerEvents: "none",
+        }}
       >
-        <source
-          src="https://www.dropbox.com/scl/fi/oeriu20lkuahfyshf99za/Italian_villa_terrace_202604231419.MP4?rlkey=0f7q5catjho2qmgfn2j3b9i6f&st=c5mnzsl1&raw=1"
-          type="video/mp4"
+        <img
+          className="hero-names-img"
+          src={NAMES_SRC}
+          alt="Bhumika with Harshwardhan"
+          draggable={false}
+          style={{ width: "100%", height: "auto", display: "block", userSelect: "none" }}
         />
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px]" />
-
-      {/* Content Overlay */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full max-w-4xl">
-        <motion.span
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-white/80 font-serif italic text-xl md:text-2xl mb-4 tracking-wider"
-        >
-          Are getting married!
-        </motion.span>
-
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="text-white font-serif text-5xl sm:text-7xl md:text-8xl italic font-light leading-[1.1] mb-6 drop-shadow-sm select-text"
-        >
-          Alexa & Richard
-        </motion.h1>
-
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
-          className="w-24 h-[1px] bg-white/60 mb-6"
-        />
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-white/90 font-sans text-xs sm:text-sm uppercase tracking-[0.3em] font-semibold"
-        >
-          Save The Date ✦ September 14, 2025
-        </motion.p>
       </div>
 
-      {/* Animated Scroll Arrow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-white/60 gap-1"
+      {/* Scroll cue */}
+      <div
+        className="hero-cue absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1"
+        style={{ color: "rgba(255,244,222,0.85)" }}
       >
         <span className="text-[10px] uppercase tracking-[0.25em] font-semibold">Scroll</span>
         <ChevronDown className="w-5 h-5 animate-bounce" />
-      </motion.div>
+      </div>
     </section>
   );
 }

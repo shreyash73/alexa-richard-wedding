@@ -1,125 +1,122 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
-import { Clock, GlassWater, Landmark, Sparkles, Utensils, DoorOpen } from "lucide-react";
+import Reveal from "@/components/Reveal";
+import { Sparkles, Music, Heart, GlassWater } from "lucide-react";
 
 interface TimelineEvent {
+  day: string;
+  date: string;
   time: string;
   title: string;
   description: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
+  tone: string;
 }
 
 const events: TimelineEvent[] = [
   {
-    time: "16:30",
-    title: "Opening of the doors",
-    description: "Welcome guests and seating. Soft background instrumentals will set the mood.",
-    icon: DoorOpen,
-  },
-  {
-    time: "17:00",
-    title: "Ceremony",
-    description: "The exchange of vows and official union in the villa garden.",
-    icon: Landmark,
-  },
-  {
-    time: "18:00",
-    title: "Cocktail and dancing time",
-    description: "Raising a glass to the newly weds! Light refreshments, jazz tunes, and social hour.",
-    icon: GlassWater,
-  },
-  {
-    time: "20:00",
-    title: "Dinner",
-    description: "A candle-lit culinary feast of international and Mexican cuisines on the terrace.",
-    icon: Utensils,
-  },
-  {
-    time: "21:00",
-    title: "Party and Open Bar",
-    description: "Time to light up the dance floor! Professional DJ sets, signatures cocktails, and fun.",
+    day: "Day One",
+    date: "11th November",
+    time: "Morning",
+    title: "Haldi",
+    description:
+      "A joyful morning ceremony where turmeric is lovingly applied to the bride and groom — blessings, laughter, and marigold all around.",
     icon: Sparkles,
+    tone: "#e69a1f",
   },
   {
-    time: "23:00",
-    title: "End of the celebration",
-    description: "A final grand farewell to our guests with sparkling lights.",
-    icon: Clock,
+    day: "Day One",
+    date: "11th November",
+    time: "Evening",
+    title: "Sangeet",
+    description:
+      "An evening of music, dance, and celebration as both families come together to sing, perform, and dance the night away.",
+    icon: Music,
+    tone: "#b5402f",
+  },
+  {
+    day: "Day Two",
+    date: "12th November",
+    time: "Morning",
+    title: "Wedding",
+    description:
+      "The sacred pheras and exchange of vows around the holy fire as Harshwardhan & Bhumika begin their journey together.",
+    icon: Heart,
+    tone: "#7a1f2b",
+  },
+  {
+    day: "Day Two",
+    date: "12th November",
+    time: "Evening",
+    title: "Reception",
+    description:
+      "A grand evening of feasting, toasts, and revelry to celebrate the newlyweds with all our beloved family and friends.",
+    icon: GlassWater,
+    tone: "#7e8b52",
   },
 ];
 
 export default function ScheduleTimeline() {
-  const containerVariants: Variants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
   return (
     <section className="py-24 px-4 bg-bg-secondary flex flex-col items-center">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-xs uppercase tracking-[0.25em] text-accent font-semibold">
-            The Big Day
+            The Celebrations
           </span>
-          <h2 className="font-serif italic text-4xl text-text-primary mt-2">
-            Schedule of Events
+          <h2 className="font-display italic text-4xl md:text-5xl text-text-primary mt-2">
+            Wedding Festivities
           </h2>
+          <div className="ornament-divider mt-5 mx-auto max-w-xs">
+            <span className="text-lg">✦</span>
+          </div>
         </div>
 
-        {/* Vertical Timeline */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="relative pl-6 sm:pl-8 border-l border-accent/20 space-y-12 ml-2 sm:ml-6"
-        >
+        {/* Vertical Timeline — each entry reveals as it scrolls into view */}
+        <div className="relative pl-6 sm:pl-8 border-l-2 border-gold/30 space-y-12 ml-2 sm:ml-6">
           {events.map((event, idx) => {
             const Icon = event.icon;
             return (
-              <motion.div
+              <Reveal
                 key={idx}
-                variants={itemVariants}
+                y={30}
+                duration={0.8}
+                delay={idx * 0.12}
                 className="relative group select-text"
               >
-                {/* Timeline node node indicator */}
-                <div className="absolute -left-[35px] sm:-left-[43px] top-1.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border-2 border-accent flex items-center justify-center shadow-sm group-hover:bg-accent group-hover:text-white transition-premium z-10">
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent group-hover:text-white transition-colors" />
+                {/* Timeline node */}
+                <div
+                  className="absolute -left-[35px] sm:-left-[43px] top-1.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border-2 flex items-center justify-center shadow-sm transition-premium z-10"
+                  style={{ borderColor: event.tone, color: event.tone }}
+                >
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
 
-                {/* Event Card Content */}
-                <div className="bg-white/60 hover:bg-white border border-border/40 hover:border-accent/15 p-6 rounded-lg shadow-sm hover:shadow-md transition-premium">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                    <span className="font-serif text-2xl font-semibold text-accent leading-none">
-                      {event.time}
-                    </span>
-                    <h3 className="font-serif text-lg font-medium text-text-primary leading-tight sm:text-right">
+                {/* Card */}
+                <div
+                  className="bg-white/70 hover:bg-white border border-gold/15 p-6 rounded-xl shadow-sm hover:shadow-md transition-premium"
+                  style={{ borderLeftWidth: 3, borderLeftColor: event.tone }}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
+                    <span
+                      className="font-display italic text-2xl font-semibold leading-none"
+                      style={{ color: event.tone }}
+                    >
                       {event.title}
-                    </h3>
+                    </span>
+                    <span className="text-[11px] uppercase tracking-[0.18em] text-text-secondary font-semibold sm:text-right">
+                      {event.date} · {event.time}
+                    </span>
                   </div>
-                  <p className="text-sm text-text-secondary leading-relaxed font-light">
+                  <p className="text-sm text-text-secondary leading-relaxed font-light mt-2">
                     {event.description}
                   </p>
                 </div>
-              </motion.div>
+              </Reveal>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

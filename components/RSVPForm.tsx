@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
+
+gsap.registerPlugin(useGSAP);
 
 export default function RSVPForm() {
   const [name, setName] = useState("");
@@ -13,9 +16,22 @@ export default function RSVPForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [validationError, setValidationError] = useState("");
 
+  // Fade/slide whichever panel (form or success) is showing
+  const swapRef = useRef<HTMLDivElement>(null);
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        swapRef.current,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }
+      );
+    },
+    { dependencies: [isSubmitted] }
+  );
+
   // Load existing RSVP from localStorage if present
   useEffect(() => {
-    const savedRSVP = localStorage.getItem("alexa-richard-rsvp");
+    const savedRSVP = localStorage.getItem("harshwardhan-bhumika-rsvp");
     if (savedRSVP) {
       try {
         const parsed = JSON.parse(savedRSVP);
@@ -47,7 +63,7 @@ export default function RSVPForm() {
     // Mock API call submission
     setTimeout(() => {
       const rsvpData = { name, attendance, intolerances, date: new Date().toISOString() };
-      localStorage.setItem("alexa-richard-rsvp", JSON.stringify(rsvpData));
+      localStorage.setItem("harshwardhan-bhumika-rsvp", JSON.stringify(rsvpData));
       setIsSubmitting(false);
       setIsSubmitted(true);
     }, 1500);
@@ -65,27 +81,22 @@ export default function RSVPForm() {
           <span className="text-xs uppercase tracking-[0.25em] text-accent font-semibold">
             RSVP
           </span>
-          <h2 className="font-serif italic text-4xl text-text-primary mt-2">
+          <h2 className="font-display italic text-4xl md:text-5xl text-text-primary mt-2">
             Confirm Your Attendance
           </h2>
-          <p className="text-sm text-text-secondary leading-relaxed font-light mt-4 px-4">
-            To help us prepare for a joyful celebration, kindly confirm your attendance before September 30.
+          <div className="ornament-divider mt-5 mb-4 mx-auto max-w-xs">
+            <span className="text-lg">✦</span>
+          </div>
+          <p className="text-sm text-text-secondary leading-relaxed font-light mt-2 px-4">
+            To help us prepare for a joyful celebration, kindly confirm your attendance before the 25th of October.
           </p>
         </div>
 
         {/* Outer Form Card */}
         <div className="bg-bg-secondary/40 border border-border/30 rounded-2xl p-6 sm:p-10 shadow-sm relative overflow-hidden select-text">
-          <AnimatePresence mode="wait">
+          <div ref={swapRef}>
             {!isSubmitted ? (
-              <motion.form
-                key="form"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                onSubmit={handleSubmit}
-                className="space-y-6"
-              >
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Input */}
                 <div className="flex flex-col">
                   <label htmlFor="name" className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-2">
@@ -189,16 +200,9 @@ export default function RSVPForm() {
                     </>
                   )}
                 </button>
-              </motion.form>
+              </form>
             ) : (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.4 }}
-                className="flex flex-col items-center text-center py-6"
-              >
+              <div className="flex flex-col items-center text-center py-6">
                 <div className="w-16 h-16 flex items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-500 mb-6 shadow-sm">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
@@ -215,9 +219,9 @@ export default function RSVPForm() {
                 >
                   Edit Response
                 </button>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
