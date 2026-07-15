@@ -1,2 +1,2 @@
-:HL["/alexa-richard-wedding/_next/static/chunks/0nb7.a7kp8sct.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"K7Kq5Dm_WzXZNGrEjwdjV"}
+:HL["/alexa-richard-wedding/_next/static/chunks/0agfk24rj7gzt.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"5Vam2GOHUHe7ujauzw6-N"}
