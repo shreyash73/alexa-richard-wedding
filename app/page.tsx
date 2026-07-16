@@ -13,6 +13,7 @@ import ScheduleTimeline from "@/components/ScheduleTimeline";
 import VenueSection from "@/components/VenueSection";
 import DressCodePalette from "@/components/DressCodePalette";
 import RSVPForm from "@/components/RSVPForm";
+import ClosingEnvelope from "@/components/ClosingEnvelope";
 
 // Reusable BH monogram mark
 function MonogramBH({ size = 96 }: { size?: number }) {
@@ -111,36 +112,8 @@ export default function Home() {
         {/* Venue */}
         <VenueSection />
 
-        {/* Warm greeting card */}
-        <section className="py-24 px-4 bg-bg-primary flex flex-col items-center select-text">
-          <div className="w-full max-w-2xl text-center flex flex-col items-center">
-            <Reveal scale={0.9} rotate={-6} duration={0.8} className="mb-6 animate-float-soft">
-              <MonogramBH size={88} />
-            </Reveal>
-
-            <Reveal
-              delay={0.2}
-              className="text-xs uppercase tracking-[0.25em] text-accent font-semibold mb-4"
-            >
-              Dear friends and family,
-            </Reveal>
-
-            <Reveal
-              y={15}
-              duration={0.8}
-              delay={0.3}
-              className="font-serif italic text-xl md:text-2xl text-text-primary leading-relaxed max-w-lg mb-8"
-            >
-              &ldquo;As we prepare to begin this beautiful new chapter together, we feel
-              grateful for the wonderful people in our lives. Your love and blessings mean
-              the world to us, and we would be honoured to have you celebrate with us.&rdquo;
-            </Reveal>
-
-            <div className="ornament-divider w-40">
-              <span className="text-lg">❀</span>
-            </div>
-          </div>
-        </section>
+        {/* Closing Envelope scroll reveal card */}
+        <ClosingEnvelope />
 
         {/* Couple photo slider */}
         <PhotoSlider />
