@@ -22,18 +22,18 @@ export default function PhotoSlider() {
   return (
     <section
       className="py-24 px-4 flex flex-col items-center overflow-hidden"
-      style={{ background: "linear-gradient(180deg,#fff9f0 0%,#fbf0dc 100%)" }}
+      style={{ backgroundColor: "#390000" }} // Matches the Venue Section and envelope backgrounds
     >
       <div className="w-full max-w-5xl">
         {/* Header */}
         <Reveal y={18} duration={0.8} className="text-center mb-12 px-4">
-          <span className="text-xs uppercase tracking-[0.28em] text-accent font-semibold">
+          <span className="text-xs uppercase tracking-[0.28em] text-[#e3c984] font-semibold">
             Moments
           </span>
-          <h2 className="font-display italic text-4xl md:text-5xl text-text-primary mt-2">
+          <h2 className="font-display italic text-4xl md:text-5xl text-white/90 mt-2">
             Our Story in Pictures
           </h2>
-          <div className="ornament-divider mt-5 mx-auto max-w-xs">
+          <div className="ornament-divider mt-5 mx-auto max-w-xs text-[#e3c984]">
             <span className="text-lg">❀</span>
           </div>
         </Reveal>
@@ -72,7 +72,7 @@ export default function PhotoSlider() {
         <Reveal
           duration={0.8}
           delay={0.3}
-          className="font-serif italic text-text-secondary text-center text-base mt-10"
+          className="font-serif italic text-white/70 text-center text-base mt-10"
         >
           Every picture tells a part of our story — we can&apos;t wait to add you to it.
         </Reveal>

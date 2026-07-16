@@ -103,6 +103,9 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Couple photo slider */}
+        <PhotoSlider />
+
         {/* Haldi & Sangeet cards on the BH5 gradient */}
         <EventsSection />
 
@@ -115,8 +118,7 @@ export default function Home() {
         {/* Closing Envelope scroll reveal card */}
         <ClosingEnvelope />
 
-        {/* Couple photo slider */}
-        <PhotoSlider />
+
 
         {/* Wedding festivities timeline */}
         <ScheduleTimeline />
