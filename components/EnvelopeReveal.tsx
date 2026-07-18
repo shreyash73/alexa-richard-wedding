@@ -2,12 +2,17 @@
 
 /**
  * EnvelopeReveal — full-screen envelope opening built from the couple's
- * artwork: "Open 2" (envelope body + interior) as the base layer and
- * "Open 1" (transparent flap cutout with the BH wax seal) as a 3D flap
- * hinged at the top edge. Tap anywhere → flap peels back → the scene
- * dissolves into light → the site.
+ * "Open 4" artwork:
+ *   "Open 4v"   — the composed closed envelope, the first screen
+ *   "Open 4-1"  — transparent flap cutout with the BH wax seal, the
+ *                 3D piece that peels open (hinged at the top edge)
+ *   "Open 4-2"  — first stage of the light effect revealed underneath
+ *   "Open 4-2.1"— second, fully blanched stage the scene builds to
+ * Tap anywhere → the closed art dissolves into the lit envelope as the
+ * flap peels back, light bleeding out of the mouth as it lifts → a bright
+ * flash as it fully opens → the site.
  *
- * Both images share one 9:16 canvas, so identical full-screen
+ * All images share one 9:16 canvas, so identical full-screen
  * object-fit:cover rendering keeps them pixel-registered at any viewport.
  * On phone aspect ratios the image height fits exactly, putting the flap
  * hinge (canvas top) at the screen top edge.
@@ -16,9 +21,10 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-const BODY_SRC  = "/alexa-richard-wedding/envelope-body.webp";
-const FLAP_SRC  = "/alexa-richard-wedding/envelope-flap.webp";
-const LIGHT_SRC = "/alexa-richard-wedding/envelope-light.webp";
+const CLOSED_SRC = "/alexa-richard-wedding/envelope-closed.webp";
+const BODY_SRC   = "/alexa-richard-wedding/envelope-body.webp";
+const FLAP_SRC   = "/alexa-richard-wedding/envelope-flap.webp";
+const LIGHT_SRC  = "/alexa-richard-wedding/envelope-light.webp";
 
 const COVER_IMG: React.CSSProperties = {
   position: "absolute",
@@ -39,12 +45,15 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
   const [mounted, setMounted] = useState(false);
   const [triggered, setTriggered] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
-  const ready = loadedCount >= 2; // body + flap decoded
+  const ready = loadedCount >= 2; // closed art + flap decoded
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const sceneRef   = useRef<HTMLDivElement>(null);
+  const closedRef  = useRef<HTMLImageElement>(null);
   const flapRef    = useRef<HTMLDivElement>(null);
   const lightRef   = useRef<HTMLImageElement>(null);
+  const glowRef    = useRef<HTMLDivElement>(null);
+  const flashRef   = useRef<HTMLDivElement>(null);
   const bloomRef   = useRef<HTMLDivElement>(null);
   const mainTlRef  = useRef<gsap.core.Timeline | null>(null);
   const idleTlRef  = useRef<gsap.core.Timeline | null>(null);
@@ -57,13 +66,12 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
     gsap.to(sceneRef.current, { opacity: 1, duration: 0.35, ease: "power1.out" });
   }, [ready]);
 
-  // Idle breathing — the flap tip hovers slightly toward the viewer and
-  // settles; real paper never lies perfectly flat.
+  // Idle breathing — the closed envelope swells almost imperceptibly, like
+  // paper catching candlelight; real stationery never sits perfectly still.
   useEffect(() => {
     if (!mounted || !ready) return;
-    gsap.set(flapRef.current, { rotationX: 2.5 });
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(flapRef.current, { rotationX: 5, duration: 2.4, ease: "sine.inOut" });
+    tl.to(closedRef.current, { scale: 1.012, duration: 2.6, ease: "sine.inOut" });
     idleTlRef.current = tl;
     return () => { tl.kill(); };
   }, [mounted, ready]);
@@ -71,7 +79,13 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
   useEffect(() => {
     if (!mounted) return;
     gsap.set(bloomRef.current, { opacity: 0 });
-    gsap.set(lightRef.current, { opacity: 0, scale: 0.75, transformOrigin: "50% 38%" });
+    gsap.set(flashRef.current, { opacity: 0 });
+    gsap.set(glowRef.current, { opacity: 0, scale: 0.55, transformOrigin: "50% 35%" });
+    // Light stages are full-frame artwork sharing one canvas — they must
+    // never scale, or their baked text drifts against each other
+    gsap.set(lightRef.current, { opacity: 0 });
+    // The flap starts hidden behind the composed closed art, already in place
+    gsap.set(flapRef.current, { opacity: 0 });
 
     const tl = gsap.timeline({
       paused: true,
@@ -81,29 +95,42 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
       },
     });
 
-    // Phase 1: press — the flap flattens under the finger
-    tl.to(flapRef.current, { rotationX: 0.6, duration: 0.14, ease: "power2.out" });
+    // Phase 1: the closed artwork dissolves into the lit envelope (4-2)
+    // while the real flap takes over from the baked one, perfectly aligned
+    tl.set(flapRef.current, { opacity: 1 })
+      .to(closedRef.current, { opacity: 0, duration: 0.55, ease: "power1.inOut" });
 
-    // Phase 2: the flap peels up slowly, light pouring out of the opening
+    // Phase 1.5: the wax seal releases — a quick rock outward before the peel
+    tl.to(flapRef.current, { rotationX: 3, duration: 0.15, ease: "back.out(2.5)" }, "-=0.15");
+
+    // Phase 2: the flap peels up slowly — light bleeds out of the widening
+    // mouth (glow grows from behind the flap) while the envelope itself
+    // brightens through the 4-2 → 4-2.1 stages
     tl.to(flapRef.current,
         { rotationX: -115, duration: 2.30, ease: "power2.inOut" },
         "+=0.06")
+      .to(glowRef.current,
+        { opacity: 0.9, scale: 1.35, duration: 1.70, ease: "power1.in" },
+        "<+0.45")
       .to(lightRef.current,
-        { opacity: 1, duration: 1.40, ease: "power1.in" },
-        "<+0.30")
-      .to(lightRef.current,
-        { scale: 1.12, duration: 2.00, ease: "power1.out" },
-        "<");
+        { opacity: 1, duration: 1.30, ease: "power1.in" },
+        "<+0.25");
 
-    // Phase 3: dissolve into light (takes over as the flap nears fully open)
+    // Phase 3: the flash — a sharp burst of white the instant the envelope
+    // finishes opening, riding on the warm bloom underneath
     tl.to(bloomRef.current,
-        { opacity: 1, duration: 0.90, ease: "power1.in" },
-        "-=0.75");
+        { opacity: 1, duration: 0.70, ease: "power1.in" },
+        "-=0.55")
+      .to(flashRef.current,
+        { opacity: 1, duration: 0.16, ease: "power4.in" },
+        "-=0.10")
+      .to(flashRef.current,
+        { opacity: 0, duration: 0.85, ease: "power2.out" });
 
-    // Phase 4: overlay fades → main page
+    // Phase 4: overlay fades → main page (starts under the settling flash)
     tl.to(overlayRef.current,
         { opacity: 0, duration: 0.80, ease: "power2.inOut" },
-        "+=0.12");
+        "-=0.70");
 
     mainTlRef.current = tl;
     return () => { tl.kill(); };
@@ -146,17 +173,15 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
       }}
     >
       <div ref={sceneRef} style={{ position: "absolute", inset: 0, opacity: 0 }}>
-        {/* ── Envelope body + interior (what the lifting flap reveals) ────── */}
+        {/* ── Light stage 1 (4-2) — revealed as the closed art dissolves ──── */}
         <img
           src={BODY_SRC}
           alt=""
           draggable={false}
-          onLoad={() => setLoadedCount((n) => n + 1)}
-          onError={() => setLoadedCount((n) => n + 1)}
           style={{ ...COVER_IMG, zIndex: 1 }}
         />
 
-        {/* ── Light spilling out of the envelope mouth (behind the flap) ──── */}
+        {/* ── Light stage 2 (4-2.1) — the scene bleaches toward this ──────── */}
         <img
           ref={lightRef}
           src={LIGHT_SRC}
@@ -168,6 +193,19 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
             zIndex: 2,
             opacity: 0,
             pointerEvents: "none",
+          }}
+        />
+
+        {/* ── Light bleed — warm glow seeping out of the envelope mouth as
+               the flap lifts (under the flap, over the envelope art) ──────── */}
+        <div
+          ref={glowRef}
+          aria-hidden="true"
+          style={{
+            position: "absolute", inset: 0, zIndex: 2,
+            opacity: 0, pointerEvents: "none",
+            background:
+              "radial-gradient(85% 60% at 50% 35%, rgba(255,250,235,0.95) 0%, rgba(255,244,220,0.55) 45%, rgba(255,240,210,0) 75%)",
           }}
         />
 
@@ -209,6 +247,18 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
             }}
           />
         </div>
+
+        {/* ── Closed envelope (4v) — the first screen, on top of everything;
+               dissolves on tap to hand off to the animated layers ─────────── */}
+        <img
+          ref={closedRef}
+          src={CLOSED_SRC}
+          alt=""
+          draggable={false}
+          onLoad={() => setLoadedCount((n) => n + 1)}
+          onError={() => setLoadedCount((n) => n + 1)}
+          style={{ ...COVER_IMG, zIndex: 4, pointerEvents: "none" }}
+        />
       </div>
 
       {/* ── Light bloom — the envelope dissolves into this on opening ─────── */}
@@ -220,6 +270,17 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
           opacity: 0, pointerEvents: "none",
           background:
             "radial-gradient(120% 90% at 50% 45%, #fffdf6 0%, #fbf4e6 55%, #f2e8d3 100%)",
+        }}
+      />
+
+      {/* ── Flash — sharp white burst the moment the envelope opens ───────── */}
+      <div
+        ref={flashRef}
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0, zIndex: 50,
+          opacity: 0, pointerEvents: "none",
+          background: "#ffffff",
         }}
       />
     </div>
