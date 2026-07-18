@@ -7,6 +7,7 @@ import MusicPlayer from "@/components/MusicPlayer";
 import HeroSection from "@/components/HeroSection";
 import SaveTheDate from "@/components/SaveTheDate";
 import EventsSection from "@/components/EventsSection";
+import CountdownSection from "@/components/CountdownSection";
 import PhotoSlider from "@/components/PhotoSlider";
 import ScheduleTimeline from "@/components/ScheduleTimeline";
 import VenueSection from "@/components/VenueSection";
@@ -108,6 +109,9 @@ export default function Home() {
         {/* Haldi, Sangeet, Wedding & Reception cards — one per screen on the
             BH5 gradient */}
         <EventsSection />
+
+        {/* Countdown to the festivities */}
+        <CountdownSection />
 
         {/* Venue */}
         <VenueSection />
