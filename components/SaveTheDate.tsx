@@ -229,7 +229,7 @@ export default function SaveTheDate() {
 
       {/* Save-the-date typography — date block sits inside the heart */}
       <img src={TYPO_SRC}
-        alt="Save the date — Bhumika & Harshwardhan, 11th & 12th November 2026, 36 Fort, Balod Road, Koihapuri, Durg, Chhattisgarh"
+        alt="Save the date — Bhumika & Harshwardhan, 11th & 12th November 2026"
         draggable={false}
         style={{ ...COVER_IMG, zIndex: 3 }} />
 

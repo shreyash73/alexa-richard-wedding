@@ -9,6 +9,8 @@ import { MapPin, Navigation } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const MAP_URL = "https://maps.google.com/?q=36+Fort,+Balod+Road,+Koihapuri,+Durg,+Chhattisgarh";
+const MAP_EMBED_URL =
+  "https://maps.google.com/maps?q=36+Fort,+Balod+Road,+Koihapuri,+Durg,+Chhattisgarh&z=15&output=embed";
 
 export default function VenueSection() {
   const sceneRef = useRef<HTMLElement>(null);
@@ -95,28 +97,31 @@ export default function VenueSection() {
           Get Directions
         </a>
 
-        {/* View on Map card */}
-        <a
-          href={MAP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="venue-card relative w-full max-w-[340px] aspect-[1.1] rounded-3xl border-2 border-[#b8860b]/60 flex flex-col items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-premium shadow-lg cursor-pointer select-none"
+        {/* Embedded Google Map card */}
+        <div
+          className="venue-card relative w-full max-w-[340px] aspect-[1.1] rounded-3xl border-2 border-[#b8860b]/60 overflow-hidden shadow-lg"
           style={{ backgroundColor: "rgba(227, 201, 132, 0.92)" }} // Warm gold/tan background
         >
-          {/* Inner inset border line */}
-          <div className="absolute inset-3 border border-[#b8860b]/30 rounded-[20px] pointer-events-none" />
+          <iframe
+            src={MAP_EMBED_URL}
+            title="Venue map — 36 Fort, Balod Road, Koihapuri, Durg, Chhattisgarh"
+            className="absolute inset-0 w-full h-full border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
 
-          {/* Map Pin icon */}
-          <MapPin className="w-12 h-12 text-[#b5402f] mb-1" strokeWidth={1.5} />
-
-          {/* View on Map text */}
-          <span
-            className="font-serif italic text-3xl font-semibold"
-            style={{ color: "#390000" }}
+          {/* Open-in-Maps chip over the embed */}
+          <a
+            href={MAP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#390000]/90 text-[#e3c984] font-sans text-xs font-semibold hover:scale-[1.03] active:scale-[0.97] transition-premium shadow-md cursor-pointer select-none"
           >
+            <MapPin className="w-3.5 h-3.5" strokeWidth={2} />
             View on Map
-          </span>
-        </a>
+          </a>
+        </div>
       </div>
     </section>
   );

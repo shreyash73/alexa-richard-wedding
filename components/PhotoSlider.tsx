@@ -1,18 +1,18 @@
 "use client";
 
 import Reveal from "@/components/Reveal";
-import { Camera } from "lucide-react";
 
-// Placeholder slides — swap `src` for real photographs when shared.
-type Slide = { caption: string; tone: string };
+type Slide = { caption: string; src: string };
 
 const SLIDES: Slide[] = [
-  { caption: "The proposal", tone: "linear-gradient(150deg,#f6d9a8,#e3a05a)" },
-  { caption: "First look", tone: "linear-gradient(150deg,#f3c2b0,#c97a63)" },
-  { caption: "Together", tone: "linear-gradient(150deg,#e8d7a0,#bf9a4a)" },
-  { caption: "Our journey", tone: "linear-gradient(150deg,#dcc59a,#a98b52)" },
-  { caption: "Engagement", tone: "linear-gradient(150deg,#f0c9a6,#cf8d5a)" },
-  { caption: "Forever", tone: "linear-gradient(150deg,#eccfa9,#c79a3a)" },
+  { caption: "The proposal", src: "/alexa-richard-wedding/couple-1.webp" },
+  { caption: "First look", src: "/alexa-richard-wedding/couple-2.webp" },
+  { caption: "Together", src: "/alexa-richard-wedding/couple-3.webp" },
+  { caption: "Our journey", src: "/alexa-richard-wedding/couple-4.webp" },
+  { caption: "Engagement", src: "/alexa-richard-wedding/couple-5.webp" },
+  { caption: "Forever", src: "/alexa-richard-wedding/couple-6.webp" },
+  { caption: "Hand in hand", src: "/alexa-richard-wedding/couple-7.webp" },
+  { caption: "Always", src: "/alexa-richard-wedding/couple-8.webp" },
 ];
 
 // Duplicated once so the marquee can loop seamlessly at -50%.
@@ -53,13 +53,17 @@ export default function PhotoSlider() {
               <figure
                 key={i}
                 className="group/tile relative overflow-hidden rounded-xl shadow-md border border-gold/20 shrink-0 w-56 sm:w-72 aspect-[3/4]"
-                style={{ background: slide.tone }}
               >
-                {/* Placeholder content — replace with <img> when photos arrive */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white/85 select-none">
-                  <Camera className="w-7 h-7 mb-2 opacity-70" strokeWidth={1.3} />
-                  <span className="font-display italic text-lg drop-shadow-sm">{slide.caption}</span>
-                </div>
+                <img
+                  src={slide.src}
+                  alt={slide.caption}
+                  draggable={false}
+                  className="absolute inset-0 w-full h-full object-cover select-none"
+                />
+                {/* Caption over a bottom scrim */}
+                <figcaption className="absolute inset-x-0 bottom-0 pt-10 pb-4 px-4 text-center bg-gradient-to-t from-black/60 via-black/25 to-transparent select-none">
+                  <span className="font-display italic text-lg text-white/90 drop-shadow-sm">{slide.caption}</span>
+                </figcaption>
                 {/* Sheen sweep on hover */}
                 <div className="absolute inset-0 -translate-x-full group-hover/tile:translate-x-full transition-transform duration-[1100ms] ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
                 {/* Inset frame */}
