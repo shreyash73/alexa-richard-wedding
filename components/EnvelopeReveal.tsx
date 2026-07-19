@@ -77,7 +77,6 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
       paused: true,
       onComplete: () => {
         onOpenComplete();
-        onPlayMusic?.();
       },
     });
 
@@ -102,7 +101,7 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
 
     // Phase 4: overlay fades → main page
     tl.to(overlayRef.current,
-        { opacity: 0, duration: 0.80, ease: "power2.inOut" },
+        { opacity: 0, duration: 1.5, ease: "power2.inOut" },
         "+=0.12");
 
     mainTlRef.current = tl;
@@ -113,6 +112,9 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
   const handleTap = () => {
     if (triggered || !ready) return;
     setTriggered(true);
+    // Start the music on the tap itself — the opening plays to it. The tap
+    // is the user gesture browsers require before audio may start.
+    onPlayMusic?.();
     idleTlRef.current?.kill();
     mainTlRef.current?.play();
   };

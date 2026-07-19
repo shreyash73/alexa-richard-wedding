@@ -1,49 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import Reveal from "@/components/Reveal";
+import { useEffect, useState } from "react";
 import EnvelopeReveal from "@/components/EnvelopeReveal";
 import MusicPlayer from "@/components/MusicPlayer";
 import HeroSection from "@/components/HeroSection";
 import SaveTheDate from "@/components/SaveTheDate";
+import InvitationSection from "@/components/InvitationSection";
 import EventsSection from "@/components/EventsSection";
 import CountdownSection from "@/components/CountdownSection";
 import PhotoSlider from "@/components/PhotoSlider";
-import ScheduleTimeline from "@/components/ScheduleTimeline";
 import VenueSection from "@/components/VenueSection";
 import DressCodePalette from "@/components/DressCodePalette";
 import RSVPForm from "@/components/RSVPForm";
 import ClosingEnvelope from "@/components/ClosingEnvelope";
 
-// Reusable BH monogram mark
-function MonogramBH({ size = 96 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
-      <circle cx="50" cy="50" r="46" fill="none" stroke="var(--color-gold)" strokeWidth="1.2" opacity="0.7" />
-      <circle cx="50" cy="50" r="40" fill="none" stroke="var(--color-gold)" strokeWidth="0.6" opacity="0.4" strokeDasharray="2 3" />
-      <text
-        x="50"
-        y="63"
-        textAnchor="middle"
-        className="text-gold-shimmer"
-        fontSize="40"
-        fontFamily="'Playfair Display', Georgia, serif"
-        fontWeight="600"
-        fill="var(--color-gold)"
-      >
-        BH
-      </text>
-    </svg>
-  );
-}
-
 export default function Home() {
   const [envelopeComplete, setEnvelopeComplete] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
-  const scrollToRSVP = () => {
-    document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Try to start the music as soon as the envelope screen loads. Browsers
+  // that block audio before the first interaction simply reject this
+  // (MusicPlayer resets the state), and the envelope tap starts it instead.
+  useEffect(() => {
+    setIsMusicPlaying(true);
+  }, []);
 
   return (
     // Phone-format stage: on wide screens the experience renders in a
@@ -61,10 +41,10 @@ export default function Home() {
         />
       )}
 
-      {/* 2. Floating audio controller */}
-      {envelopeComplete && (
-        <MusicPlayer isPlaying={isMusicPlaying} setIsPlaying={setIsMusicPlaying} />
-      )}
+      {/* 2. Floating audio controller — always mounted so the audio can
+             start on the envelope tap; its button sits beneath the envelope
+             overlay until the reveal finishes */}
+      <MusicPlayer isPlaying={isMusicPlaying} setIsPlaying={setIsMusicPlaying} />
 
       {/* 3. Main contents — keyed so entrance animations replay once the
              envelope opens instead of running invisibly behind it */}
@@ -103,6 +83,9 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Formal invitation from the families */}
+        <InvitationSection />
+
         {/* Couple photo slider */}
         <PhotoSlider />
 
@@ -119,13 +102,6 @@ export default function Home() {
         {/* Closing Envelope scroll reveal card */}
         <ClosingEnvelope />
 
-
-
-        {/* Wedding festivities timeline */}
-        <ScheduleTimeline />
-
-
-
         {/* Dress code */}
         <DressCodePalette />
 
@@ -133,52 +109,6 @@ export default function Home() {
         <div id="rsvp">
           <RSVPForm />
         </div>
-
-        {/* Closing section */}
-        <footer
-          className="py-28 px-4 flex flex-col items-center select-text relative overflow-hidden"
-          style={{ background: "linear-gradient(180deg,#2a1408 0%,#1a0d05 100%)" }}
-        >
-          {/* faint glow */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse at 50% 20%, rgba(230,150,40,0.18) 0%, transparent 60%)" }}
-          />
-
-          <div className="relative w-full max-w-md text-center flex flex-col items-center">
-            <Reveal scale={0.85} duration={0.8} className="mb-8 animate-float-soft">
-              <MonogramBH size={104} />
-            </Reveal>
-
-            <h3 className="font-display italic text-3xl md:text-4xl text-gold-shimmer font-medium leading-tight mb-3">
-              Thank You
-            </h3>
-
-            <p className="font-serif italic text-lg text-amber-50/80 mb-2">
-              We can&apos;t wait to celebrate with you.
-            </p>
-
-            <p className="font-display text-2xl text-amber-50/90 italic font-light tracking-wide mt-4">
-              Harshwardhan &amp; Bhumika
-            </p>
-
-            <button
-              onClick={scrollToRSVP}
-              className="mt-10 px-8 py-3 rounded-full bg-gold text-[#2a1408] font-sans text-sm font-semibold hover:bg-gold-soft active:scale-95 shadow-lg transition-premium select-none"
-            >
-              RSVP Now
-            </button>
-
-            <div className="flex flex-col items-center gap-1 mt-10 text-amber-50/55 text-xs">
-              <span className="uppercase tracking-[0.2em]">For any queries</span>
-              <span className="font-light">contact us at +91 00000 00000</span>
-            </div>
-
-            <span className="text-[10px] uppercase tracking-[0.25em] text-amber-50/30 font-semibold mt-12">
-              © 2026 Harshwardhan &amp; Bhumika · Made with love
-            </span>
-          </div>
-        </footer>
 
       </div>
     </main>
