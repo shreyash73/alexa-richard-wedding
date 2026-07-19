@@ -2,6 +2,7 @@
 
 import Reveal from "@/components/Reveal";
 
+// caption is used only as the image alt text — no visible overlay
 type Slide = { caption: string; src: string };
 
 const SLIDES: Slide[] = [
@@ -11,7 +12,6 @@ const SLIDES: Slide[] = [
   { caption: "Our journey", src: "/alexa-richard-wedding/couple-4.webp" },
   { caption: "Engagement", src: "/alexa-richard-wedding/couple-5.webp" },
   { caption: "Forever", src: "/alexa-richard-wedding/couple-6.webp" },
-  { caption: "Hand in hand", src: "/alexa-richard-wedding/couple-7.webp" },
   { caption: "Always", src: "/alexa-richard-wedding/couple-8.webp" },
 ];
 
@@ -27,11 +27,8 @@ export default function PhotoSlider() {
       <div className="w-full max-w-5xl">
         {/* Header */}
         <Reveal y={18} duration={0.8} className="text-center mb-12 px-4">
-          <span className="text-xs uppercase tracking-[0.28em] text-[#e3c984] font-semibold">
+          <h2 className="font-display italic text-5xl md:text-6xl text-white/90">
             Moments
-          </span>
-          <h2 className="font-display italic text-4xl md:text-5xl text-white/90 mt-2">
-            Our Story in Pictures
           </h2>
           <div className="ornament-divider mt-5 mx-auto max-w-xs text-[#e3c984]">
             <span className="text-lg">❀</span>
@@ -60,10 +57,6 @@ export default function PhotoSlider() {
                   draggable={false}
                   className="absolute inset-0 w-full h-full object-cover select-none"
                 />
-                {/* Caption over a bottom scrim */}
-                <figcaption className="absolute inset-x-0 bottom-0 pt-10 pb-4 px-4 text-center bg-gradient-to-t from-black/60 via-black/25 to-transparent select-none">
-                  <span className="font-display italic text-lg text-white/90 drop-shadow-sm">{slide.caption}</span>
-                </figcaption>
                 {/* Sheen sweep on hover */}
                 <div className="absolute inset-0 -translate-x-full group-hover/tile:translate-x-full transition-transform duration-[1100ms] ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
                 {/* Inset frame */}

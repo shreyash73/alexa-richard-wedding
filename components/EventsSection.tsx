@@ -26,7 +26,7 @@ const EVENTS = [
   {
     key: "sangeet",
     src: "/alexa-richard-wedding/event-sangeet.webp",
-    alt: "Sangeet — an evening where music, dance, & unforgettable memories take center stage. Dress code: festive glamour — dark jewel tones, metallics & cocktail wear. 11 November 2026, 6:00 PM onwards",
+    alt: "Sangeet — an evening where music, dance, & unforgettable memories take center stage. Dress code: festive glamour — Indo western. 11 November 2026, 6:00 PM onwards",
   },
   {
     key: "wedding",
@@ -60,7 +60,7 @@ export default function EventsSection() {
           scrollTrigger: {
             trigger: scene,
             start: "top top",
-            end: "+=90%",
+            end: "+=70%",
             scrub: 0.5,
             pin: true,
             anticipatePin: 1,
@@ -74,10 +74,11 @@ export default function EventsSection() {
           { scale: 1.06 + i * 0.06, ease: "none", duration: 1 },
           0
         ).fromTo(
+          // Card reveals right as its scene takes over — no dead scroll
           scene.querySelector(".ev-card"),
           { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, ease: "power1.out", duration: 0.35 },
-          0.05
+          { opacity: 1, y: 0, ease: "power1.out", duration: 0.25 },
+          0
         );
       });
     },
