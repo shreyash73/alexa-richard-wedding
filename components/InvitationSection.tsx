@@ -40,8 +40,7 @@ export default function InvitationSection() {
   return (
     <section
       ref={sceneRef}
-      className="relative h-screen w-full overflow-hidden select-none"
-      style={{ backgroundColor: "#390000" }} // Matches the surrounding maroon while loading
+      className="relative h-screen w-full overflow-hidden select-none bg-maroon"
     >
       <img
         className="invitation-art"

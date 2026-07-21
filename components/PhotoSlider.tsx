@@ -21,8 +21,7 @@ const LOOP_SLIDES = [...SLIDES, ...SLIDES];
 export default function PhotoSlider() {
   return (
     <section
-      className="py-24 px-4 flex flex-col items-center overflow-hidden"
-      style={{ backgroundColor: "#390000" }} // Matches the Venue Section and envelope backgrounds
+      className="py-24 px-4 flex flex-col items-center overflow-hidden bg-maroon"
     >
       <div className="w-full max-w-5xl">
         {/* Header */}

@@ -42,8 +42,7 @@ export default function CountdownSection() {
 
   return (
     <section
-      className="py-24 px-4 flex flex-col items-center text-center select-none"
-      style={{ backgroundColor: "#390000" }} // Matches Venue / PhotoSlider backdrop
+      className="py-24 px-4 flex flex-col items-center text-center select-none bg-maroon"
     >
       <div className="w-full max-w-md flex flex-col items-center">
         <Reveal y={18} duration={0.8}>

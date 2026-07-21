@@ -59,8 +59,7 @@ export default function VenueSection() {
   return (
     <section
       ref={sceneRef}
-      className="relative min-h-screen w-full flex flex-col items-center justify-center py-28 px-4 text-center select-none"
-      style={{ backgroundColor: "#390000" }} // Exact deep maroon sampled from mockup
+      className="relative min-h-screen w-full flex flex-col items-center justify-center py-28 px-4 text-center select-none bg-maroon"
     >
       <div className="w-full max-w-md flex flex-col items-center">
         {/* Title */}
@@ -88,10 +87,10 @@ export default function VenueSection() {
           href={MAP_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="venue-btn inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#e3c984] text-[#390000] font-sans text-sm font-semibold hover:scale-[1.03] active:scale-[0.97] transition-premium shadow-md mb-10 cursor-pointer select-none"
+          className="venue-btn inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#e3c984] text-maroon font-sans text-sm font-semibold hover:scale-[1.03] active:scale-[0.97] transition-premium shadow-md mb-10 cursor-pointer select-none"
         >
           <Navigation
-            className="w-3.5 h-3.5 fill-[#390000] stroke-[#390000]"
+            className="w-3.5 h-3.5 fill-maroon stroke-maroon"
             style={{ transform: "rotate(45deg)" }}
           />
           Get Directions
@@ -116,7 +115,7 @@ export default function VenueSection() {
             href={MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="absolute bottom-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#390000]/90 text-[#e3c984] font-sans text-xs font-semibold hover:scale-[1.03] active:scale-[0.97] transition-premium shadow-md cursor-pointer select-none"
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-maroon/90 text-[#e3c984] font-sans text-xs font-semibold hover:scale-[1.03] active:scale-[0.97] transition-premium shadow-md cursor-pointer select-none"
           >
             <MapPin className="w-3.5 h-3.5" strokeWidth={2} />
             View on Map

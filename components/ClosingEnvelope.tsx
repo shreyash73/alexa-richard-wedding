@@ -7,9 +7,9 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const COVER_SRC  = "/alexa-richard-wedding/closing-envelope-cover.webp";
+const COVER_SRC = "/alexa-richard-wedding/closing-envelope-cover.webp";
 const LETTER_SRC = "/alexa-richard-wedding/closing-envelope-letter.webp";
-const FRONT_SRC  = "/alexa-richard-wedding/closing-envelope-front.webp";
+const FRONT_SRC = "/alexa-richard-wedding/closing-envelope-front.webp";
 
 const COVER_IMG: React.CSSProperties = {
   position: "absolute",
@@ -52,45 +52,48 @@ export default function ClosingEnvelope() {
   return (
     <section
       ref={sceneRef}
-      className="relative h-screen w-full overflow-hidden select-none"
-      style={{ backgroundColor: "#390000" }} // Matches the exact envelope background color
+      className="relative h-screen w-full overflow-hidden select-none bg-maroon"
     >
-      {/* 1. Envelope Back & Opened Flap Layer */}
-      <img
-        src={COVER_SRC}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        style={{ ...COVER_IMG, zIndex: 1 }}
-      />
-
-      {/* 2. Scroll-controlled Letter Card Layer */}
-      <div
-        className="env-letter"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 2,
-          width: "100%",
-          height: "100%",
-        }}
-      >
+      {/* Shifts the whole envelope composition up so it reads as centered
+          rather than pinned to the bottom of the screen */}
+      <div style={{ position: "absolute", inset: 0, transform: "translateY(-20%)" }}>
+        {/* 1. Envelope Back & Opened Flap Layer */}
         <img
-          src={LETTER_SRC}
-          alt="Dear family and friends, A journey of a thousand moments begins with one beautiful promise..."
+          src={COVER_SRC}
+          alt=""
+          aria-hidden="true"
           draggable={false}
-          style={COVER_IMG}
+          style={{ ...COVER_IMG, zIndex: 1 }}
+        />
+
+        {/* 2. Scroll-controlled Letter Card Layer */}
+        <div
+          className="env-letter"
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 2,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <img
+            src={LETTER_SRC}
+            alt="Dear family and friends, A journey of a thousand moments begins with one beautiful promise..."
+            draggable={false}
+            style={COVER_IMG}
+          />
+        </div>
+
+        {/* 3. Envelope Front Pocket Layer */}
+        <img
+          src={FRONT_SRC}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          style={{ ...COVER_IMG, zIndex: 3 }}
         />
       </div>
-
-      {/* 3. Envelope Front Pocket Layer */}
-      <img
-        src={FRONT_SRC}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        style={{ ...COVER_IMG, zIndex: 3 }}
-      />
     </section>
   );
 }
