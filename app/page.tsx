@@ -10,7 +10,6 @@ import EventsSection from "@/components/EventsSection";
 import CountdownSection from "@/components/CountdownSection";
 import PhotoSlider from "@/components/PhotoSlider";
 import VenueSection from "@/components/VenueSection";
-import DressCodePalette from "@/components/DressCodePalette";
 import RSVPForm from "@/components/RSVPForm";
 import ClosingEnvelope from "@/components/ClosingEnvelope";
 
@@ -101,9 +100,6 @@ export default function Home() {
 
         {/* Closing Envelope scroll reveal card */}
         <ClosingEnvelope />
-
-        {/* Dress code */}
-        <DressCodePalette />
 
         {/* RSVP */}
         <div id="rsvp">
