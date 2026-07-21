@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
 2:I[47257,["/alexa-richard-wedding/_next/static/chunks/09~p0n.w8qh4j.js","/alexa-richard-wedding/_next/static/chunks/133c44ripyune.js","/alexa-richard-wedding/_next/static/chunks/0dbhjjzl8qfwv.js"],"ClientPageRoot"]
-3:I[31713,["/alexa-richard-wedding/_next/static/chunks/09~p0n.w8qh4j.js","/alexa-richard-wedding/_next/static/chunks/133c44ripyune.js","/alexa-richard-wedding/_next/static/chunks/0dbhjjzl8qfwv.js","/alexa-richard-wedding/_next/static/chunks/0ei.nog04vy5h.js"],"default"]
+3:I[31713,["/alexa-richard-wedding/_next/static/chunks/09~p0n.w8qh4j.js","/alexa-richard-wedding/_next/static/chunks/133c44ripyune.js","/alexa-richard-wedding/_next/static/chunks/0dbhjjzl8qfwv.js","/alexa-richard-wedding/_next/static/chunks/0ka~d9~_1snh2.js"],"default"]
 6:I[97367,["/alexa-richard-wedding/_next/static/chunks/09~p0n.w8qh4j.js","/alexa-richard-wedding/_next/static/chunks/133c44ripyune.js","/alexa-richard-wedding/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/alexa-richard-wedding/_next/static/chunks/0ei.nog04vy5h.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"IctdMe3w4IfIaFdmFE_n3"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/alexa-richard-wedding/_next/static/chunks/0ka~d9~_1snh2.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"l9BDSMLKv4WZKeWKcGyfU"}
 4:{}
 5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
 8:null
