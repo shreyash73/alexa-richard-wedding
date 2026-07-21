@@ -43,7 +43,7 @@ export default function ClosingEnvelope() {
       tl.fromTo(
         ".env-letter",
         { yPercent: 25 },
-        { yPercent: -35, ease: "none", duration: 1 }
+        { yPercent: -10, ease: "none", duration: 1 }
       );
     },
     { scope: sceneRef }
