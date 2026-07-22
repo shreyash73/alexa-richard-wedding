@@ -18,7 +18,6 @@ import { gsap } from "gsap";
 
 const BODY_SRC  = "/alexa-richard-wedding/envelope-body.webp";
 const FLAP_SRC  = "/alexa-richard-wedding/envelope-flap.webp";
-const LIGHT_SRC = "/alexa-richard-wedding/envelope-light.webp";
 
 const COVER_IMG: React.CSSProperties = {
   position: "absolute",
@@ -44,7 +43,6 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
   const overlayRef = useRef<HTMLDivElement>(null);
   const sceneRef   = useRef<HTMLDivElement>(null);
   const flapRef    = useRef<HTMLDivElement>(null);
-  const lightRef   = useRef<HTMLImageElement>(null);
   const bloomRef   = useRef<HTMLDivElement>(null);
   const mainTlRef  = useRef<gsap.core.Timeline | null>(null);
   const idleTlRef  = useRef<gsap.core.Timeline | null>(null);
@@ -71,7 +69,6 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
   useEffect(() => {
     if (!mounted) return;
     gsap.set(bloomRef.current, { opacity: 0 });
-    gsap.set(lightRef.current, { opacity: 0, scale: 0.75, transformOrigin: "50% 38%" });
 
     const tl = gsap.timeline({
       paused: true,
@@ -83,16 +80,10 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
     // Phase 1: press — the flap flattens under the finger
     tl.to(flapRef.current, { rotationX: 0.6, duration: 0.14, ease: "power2.out" });
 
-    // Phase 2: the flap peels up slowly, light pouring out of the opening
+    // Phase 2: the flap peels up slowly
     tl.to(flapRef.current,
         { rotationX: -115, duration: 2.30, ease: "power2.inOut" },
-        "+=0.06")
-      .to(lightRef.current,
-        { opacity: 1, duration: 1.40, ease: "power1.in" },
-        "<+0.30")
-      .to(lightRef.current,
-        { scale: 1.12, duration: 2.00, ease: "power1.out" },
-        "<");
+        "+=0.06");
 
     // Phase 3: dissolve into light (takes over as the flap nears fully open)
     tl.to(bloomRef.current,
@@ -156,21 +147,6 @@ export default function EnvelopeReveal({ onOpenComplete, onPlayMusic }: Envelope
           onLoad={() => setLoadedCount((n) => n + 1)}
           onError={() => setLoadedCount((n) => n + 1)}
           style={{ ...COVER_IMG, zIndex: 1 }}
-        />
-
-        {/* ── Light spilling out of the envelope mouth (behind the flap) ──── */}
-        <img
-          ref={lightRef}
-          src={LIGHT_SRC}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          style={{
-            ...COVER_IMG,
-            zIndex: 2,
-            opacity: 0,
-            pointerEvents: "none",
-          }}
         />
 
         {/* ── Flap — hinged at the top edge of the canvas/screen ──────────── */}
