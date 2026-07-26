@@ -15,7 +15,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll() {
   useEffect(() => {
+    // Begin each page load / refresh at the top (unless deep-linked to a #section).
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
     const lenis = new Lenis({ duration: 1.15 });
+
+    if (!window.location.hash) {
+      lenis.scrollTo(0, { immediate: true });
+    }
 
     lenis.on("scroll", ScrollTrigger.update);
 

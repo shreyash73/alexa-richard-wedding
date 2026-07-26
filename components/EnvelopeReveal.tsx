@@ -16,8 +16,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-const BODY_SRC  = "/alexa-richard-wedding/envelope-body.webp";
-const FLAP_SRC  = "/alexa-richard-wedding/envelope-flap.webp";
+const BODY_SRC  = "/envelope-body.webp";
+const FLAP_SRC  = "/envelope-flap.webp";
 
 const COVER_IMG: React.CSSProperties = {
   position: "absolute",

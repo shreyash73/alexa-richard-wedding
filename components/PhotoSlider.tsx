@@ -6,13 +6,16 @@ import Reveal from "@/components/Reveal";
 type Slide = { caption: string; src: string };
 
 const SLIDES: Slide[] = [
-  { caption: "The proposal", src: "/alexa-richard-wedding/couple-1.webp" },
-  { caption: "First look", src: "/alexa-richard-wedding/couple-2.webp" },
-  { caption: "Together", src: "/alexa-richard-wedding/couple-3.webp" },
-  { caption: "Our journey", src: "/alexa-richard-wedding/couple-4.webp" },
-  { caption: "Engagement", src: "/alexa-richard-wedding/couple-5.webp" },
-  { caption: "Forever", src: "/alexa-richard-wedding/couple-6.webp" },
-  { caption: "Always", src: "/alexa-richard-wedding/couple-8.webp" },
+  { caption: "", src: "/couple-9.webp" },
+  { caption: "", src: "/couple-10.webp" },
+  { caption: "", src: "/couple-11.webp" },
+  { caption: "The proposal", src: "/couple-1.webp" },
+  { caption: "First look", src: "/couple-2.webp" },
+  { caption: "Together", src: "/couple-3.webp" },
+  { caption: "Our journey", src: "/couple-4.webp" },
+  { caption: "Engagement", src: "/couple-5.webp" },
+  { caption: "Forever", src: "/couple-6.webp" },
+  { caption: "Always", src: "/couple-8.webp" },
 ];
 
 // Duplicated once so the marquee can loop seamlessly at -50%.
@@ -27,7 +30,7 @@ export default function PhotoSlider() {
         {/* Header */}
         <Reveal y={18} duration={0.8} className="text-center mb-12 px-4">
           <h2 className="font-display italic text-5xl md:text-6xl text-white/90">
-            Moments
+            Celebrating Our Love
           </h2>
           <div className="ornament-divider mt-5 mx-auto max-w-xs text-[#e3c984]">
             <span className="text-lg">❀</span>
@@ -70,7 +73,7 @@ export default function PhotoSlider() {
           delay={0.3}
           className="font-serif italic text-white/70 text-center text-base mt-10"
         >
-          Every picture tells a part of our story — we can&apos;t wait to add you to it.
+          Two hearts. Two days. One beautiful beginning.
         </Reveal>
       </div>
     </section>

@@ -24,11 +24,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Harshwardhan & Bhumika — We're Getting Married!",
+  title: "BhumiकाHarsh",
   description:
     "Harshwardhan & Bhumika invite you to celebrate their wedding on the 11th & 12th of November. Find the schedule, venue, dress code, and RSVP.",
   openGraph: {
-    title: "Harshwardhan & Bhumika",
+    title: "BhumiकाHarsh",
     description: "request the honour of your presence at their wedding celebrations.",
     type: "website",
   },
@@ -45,6 +45,14 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full text-text-primary selection:bg-accent selection:text-white font-sans">
+        {/* Always open/refresh at the very top instead of restoring the
+            guest's previous scroll position. Runs before first paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if('scrollRestoration' in history){history.scrollRestoration='manual';}if(!location.hash){window.scrollTo(0,0);}",
+          }}
+        />
         <SmoothScroll />
         {children}
       </body>

@@ -15,27 +15,27 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const BG_SRC = "/alexa-richard-wedding/bh5-bg.webp";
+const BG_SRC = "/bh5-bg.webp";
 
 const EVENTS = [
   {
     key: "haldi",
-    src: "/alexa-richard-wedding/event-haldi.webp",
+    src: "/event-haldi.webp",
     alt: "Haldi — a morning of turmeric, laughter, sunshine, and blessings as we begin our celebrations in hues of yellow. Dress code: shades of yellow, ivory & orange. 11 November 2026, 1:00 PM onwards",
   },
   {
     key: "sangeet",
-    src: "/alexa-richard-wedding/event-sangeet.webp",
-    alt: "Sangeet — an evening where music, dance, & unforgettable memories take center stage. Dress code: festive glamour — Indo western. 11 November 2026, 6:00 PM onwards",
+    src: "/event-sangeet.webp",
+    alt: "Sangeet — an evening where music, dance, & unforgettable memories take center stage. Dress code: festive glamour — dark jewel tones, metallics & cocktail wear. 11 November 2026, 6:00 PM onwards",
   },
   {
     key: "wedding",
-    src: "/alexa-richard-wedding/event-wedding.webp",
-    alt: "Wedding — two hearts, two families, and two journeys become one. Dress code: traditional elegance — Indian ethnic wear. 12 November 2026, 10:00 AM onwards",
+    src: "/event-wedding.webp",
+    alt: "Wedding — two hearts, two families, and two journeys become one. Dress code: traditional elegance — Indian ethnic wear in rich, graceful. 12 November 2026, 10:00 AM onwards",
   },
   {
     key: "reception",
-    src: "/alexa-richard-wedding/event-reception.webp",
+    src: "/event-reception.webp",
     alt: "Reception — an evening to meet the newlyweds, share your blessings, capture lasting memories, & enjoy a delightful dinner. Dress code: formal elegance — Indian or Western evening attire. 12 November 2026, 8:00 PM onwards",
   },
 ];

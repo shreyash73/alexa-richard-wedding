@@ -2,8 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: '/alexa-richard-wedding',
-  assetPrefix: '/alexa-richard-wedding/',
+  // Served at the root of the custom domain (bhumikavaidya.com), so no basePath.
   images: {
     unoptimized: true,
   },

@@ -136,3 +136,12 @@ body {
   width: 3rem;
   background: linear-gradient(to right, transparent, var(--color-gold), transparent);
 }
+
+/* ── Audio Equalizer Sound Wave ────────────────────────────────── */
+@keyframes sound-wave {
+  0% { transform: scaleY(0.25); }
+  100% { transform: scaleY(1.0); }
+}
+.animate-sound-wave {
+  animation: sound-wave 0.8s ease-in-out infinite alternate;
+}

@@ -13,7 +13,7 @@ export default function MusicPlayer({ isPlaying, setIsPlaying }: MusicPlayerProp
 
   useEffect(() => {
     // Initialize audio element
-    const audio = new Audio("/alexa-richard-wedding/forever-between-flowers.mp3");
+    const audio = new Audio("/forever-between-flowers.mp3");
     audio.loop = true;
     audioRef.current = audio;
 
@@ -48,11 +48,11 @@ export default function MusicPlayer({ isPlaying, setIsPlaying }: MusicPlayerProp
     >
       {/* Visualizer bars */}
       {isPlaying && (
-        <div className="flex items-end gap-[3px] h-5 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-border/40 transition-premium">
-          <span className="w-[3px] bg-accent rounded-full animate-[pulse_0.8s_infinite_alternate]" style={{ height: "40%", animationDelay: "0.1s" }} />
-          <span className="w-[3px] bg-accent rounded-full animate-[pulse_0.8s_infinite_alternate]" style={{ height: "100%", animationDelay: "0.3s" }} />
-          <span className="w-[3px] bg-accent rounded-full animate-[pulse_0.8s_infinite_alternate]" style={{ height: "60%", animationDelay: "0.2s" }} />
-          <span className="w-[3px] bg-accent rounded-full animate-[pulse_0.8s_infinite_alternate]" style={{ height: "80%", animationDelay: "0.4s" }} />
+        <div className="flex items-end gap-[3px] h-5 px-3 py-1.5 bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-border/40 transition-premium">
+          <span className="w-[3px] h-full bg-accent rounded-full origin-bottom animate-sound-wave" style={{ animationDelay: "0.1s", animationDuration: "0.75s" }} />
+          <span className="w-[3px] h-full bg-accent rounded-full origin-bottom animate-sound-wave" style={{ animationDelay: "0.3s", animationDuration: "0.55s" }} />
+          <span className="w-[3px] h-full bg-accent rounded-full origin-bottom animate-sound-wave" style={{ animationDelay: "0.0s", animationDuration: "0.85s" }} />
+          <span className="w-[3px] h-full bg-accent rounded-full origin-bottom animate-sound-wave" style={{ animationDelay: "0.2s", animationDuration: "0.65s" }} />
         </div>
       )}
 

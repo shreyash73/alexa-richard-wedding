@@ -13,7 +13,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const INVITATION_SRC = "/alexa-richard-wedding/invitation.webp";
+const INVITATION_SRC = "/invitation.webp";
 
 export default function InvitationSection() {
   const sceneRef = useRef<HTMLElement>(null);
@@ -45,7 +45,7 @@ export default function InvitationSection() {
       <img
         className="invitation-art"
         src={INVITATION_SRC}
-        alt="With hearts full of joy and gratitude, Mr Hansraj Vaidya warmly invites you to join us in celebrating the wedding of his beloved daughter Bhumika Vaidya with Harshwardhan Pagare, beloved son of Mr Ravindra Pagare & Dr Savita Nikale"
+        alt="Jai Bhim • Namo Buddhay. With hearts full of joy and gratitude, Mr Hansraj Vaidya warmly invites you to join us in celebrating the wedding of his beloved daughter Bhumika Vaidya with Harshwardhan Pagare, beloved son of Mr Ravindra Pagare & Dr Savita Nikale"
         draggable={false}
         style={{
           position: "absolute",

@@ -18,11 +18,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import confetti from "canvas-confetti";
 
-const BG_SRC = "/alexa-richard-wedding/std-bg.webp";
-const BRIDGE_SRC = "/alexa-richard-wedding/std-bridge.webp";
-const AFTER_SRC = "/alexa-richard-wedding/std-after.webp";
-const TYPO_SRC = "/alexa-richard-wedding/std-typo.webp";
-const HEART_SRC = "/alexa-richard-wedding/std-heart.webp";
+const BG_SRC = "/std-bg.webp";
+const BRIDGE_SRC = "/std-bridge.webp";
+const AFTER_SRC = "/std-after.webp";
+const TYPO_SRC = "/std-typo.webp";
+const HEART_SRC = "/std-heart.webp";
 
 // Feathered ellipse over the heart region: the petal-ring artwork (maroon)
 // dissolves into the carpet around it, so the section stays "on the carpet"

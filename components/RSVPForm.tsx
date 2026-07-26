@@ -7,11 +7,16 @@ import { CheckCircle2, Loader2, Send } from "lucide-react";
 
 gsap.registerPlugin(useGSAP);
 
+// ── Where RSVP responses are stored ─────────────────────────────────────────
+// Paste the URL of your Google Apps Script Web App (see setup notes) here.
+// While this is empty, responses are only kept in the guest's own browser.
+const RSVP_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbzWejNQpcYua_Mz2vSELaTSnlLaurN-NE_DtykuZSFW0KZDHeNkRr4C72a7_S6dE0gx/exec";
+
 export default function RSVPForm() {
   const [name, setName] = useState("");
   const [attendance, setAttendance] = useState("");
-  const [intolerances, setIntolerances] = useState("");
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [validationError, setValidationError] = useState("");
@@ -37,7 +42,6 @@ export default function RSVPForm() {
         const parsed = JSON.parse(savedRSVP);
         setName(parsed.name || "");
         setAttendance(parsed.attendance || "");
-        setIntolerances(parsed.intolerances || "");
         setIsSubmitted(true);
       } catch (e) {
         console.error("Error reading RSVP cache:", e);
@@ -45,7 +49,7 @@ export default function RSVPForm() {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setValidationError("");
 
@@ -60,13 +64,26 @@ export default function RSVPForm() {
 
     setIsSubmitting(true);
 
-    // Mock API call submission
-    setTimeout(() => {
-      const rsvpData = { name, attendance, intolerances, date: new Date().toISOString() };
-      localStorage.setItem("harshwardhan-bhumika-rsvp", JSON.stringify(rsvpData));
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1500);
+    const rsvpData = { name, attendance, date: new Date().toISOString() };
+
+    // Send to the storage endpoint if one is configured.
+    if (RSVP_ENDPOINT) {
+      try {
+        await fetch(RSVP_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(rsvpData).toString(),
+        });
+      } catch (err) {
+        console.error("Error sending RSVP:", err);
+      }
+    }
+
+    // Keep a local copy so returning guests see their answer.
+    localStorage.setItem("harshwardhan-bhumika-rsvp", JSON.stringify(rsvpData));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   const handleEdit = () => {
@@ -74,32 +91,35 @@ export default function RSVPForm() {
   };
 
   return (
-    <section className="py-24 px-4 bg-bg-primary flex flex-col items-center">
+    // Maroon theatre backdrop — matches Invitation / Venue / ClosingEnvelope so
+    // the RSVP reads as continuous with the rest of the invite; gold + cream
+    // foreground mirrors the Venue section's palette on the same background.
+    <section className="py-24 px-4 bg-maroon flex flex-col items-center">
       <div className="w-full max-w-xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="text-xs uppercase tracking-[0.25em] text-accent font-semibold">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#e3c984] font-semibold">
             RSVP
           </span>
-          <h2 className="font-display italic text-4xl md:text-5xl text-text-primary mt-2">
+          <h2 className="font-display italic text-4xl md:text-5xl text-[#e3c984] mt-2">
             Confirm Your Attendance
           </h2>
           <div className="ornament-divider mt-5 mb-4 mx-auto max-w-xs">
             <span className="text-lg">✦</span>
           </div>
-          <p className="text-sm text-text-secondary leading-relaxed font-light mt-2 px-4">
+          <p className="text-sm text-white/75 leading-relaxed font-light mt-2 px-4">
             To help us prepare for a joyful celebration, kindly confirm your attendance before the 25th of October.
           </p>
         </div>
 
         {/* Outer Form Card */}
-        <div className="bg-bg-secondary/40 border border-border/30 rounded-2xl p-6 sm:p-10 shadow-sm relative overflow-hidden select-text">
+        <div className="bg-[#e3c984]/5 border border-[#e3c984]/25 rounded-2xl p-6 sm:p-10 shadow-lg shadow-black/25 relative overflow-hidden select-text">
           <div ref={swapRef}>
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Input */}
                 <div className="flex flex-col">
-                  <label htmlFor="name" className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-2">
+                  <label htmlFor="name" className="text-xs uppercase tracking-wider text-white/60 font-medium mb-2">
                     Your Name
                   </label>
                   <input
@@ -108,29 +128,28 @@ export default function RSVPForm() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your full name"
-                    className="w-full bg-white border border-border hover:border-accent/40 focus:border-accent px-4 py-3 rounded-lg text-sm transition-premium outline-none placeholder:text-text-secondary/40"
+                    className="w-full bg-white/5 border border-white/15 hover:border-[#e3c984]/50 focus:border-[#e3c984] px-4 py-3 rounded-lg text-sm text-white transition-premium outline-none placeholder:text-white/30"
                     disabled={isSubmitting}
                   />
                 </div>
 
                 {/* Attendance Radios */}
                 <div className="flex flex-col select-none">
-                  <span className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-3">
+                  <span className="text-xs uppercase tracking-wider text-white/60 font-medium mb-3">
                     Will you come?
                   </span>
-                  
+
                   <div className="space-y-2.5">
                     {[
                       { value: "yes", label: "Yes, I will attend" },
                       { value: "no", label: "Unfortunately, I can't come :(" },
-                      { value: "later", label: "I'll tell you a bit later" },
                     ].map((option) => (
                       <label
                         key={option.value}
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-premium text-sm ${
                           attendance === option.value
-                            ? "bg-accent/5 border-accent text-accent font-medium shadow-sm"
-                            : "bg-white border-border text-text-secondary hover:bg-bg-secondary/60"
+                            ? "bg-[#e3c984]/10 border-[#e3c984] text-[#e3c984] font-medium shadow-sm"
+                            : "bg-white/5 border-white/15 text-white/70 hover:bg-white/10"
                         }`}
                       >
                         <input
@@ -145,12 +164,12 @@ export default function RSVPForm() {
                         <div
                           className={`w-4.5 h-4.5 rounded-full border flex items-center justify-center transition-premium ${
                             attendance === option.value
-                              ? "border-accent bg-accent"
-                              : "border-border bg-white"
+                              ? "border-[#e3c984] bg-[#e3c984]"
+                              : "border-white/30 bg-transparent"
                           }`}
                         >
                           {attendance === option.value && (
-                            <div className="w-2 h-2 rounded-full bg-white" />
+                            <div className="w-2 h-2 rounded-full bg-maroon" />
                           )}
                         </div>
                         {option.label}
@@ -159,25 +178,9 @@ export default function RSVPForm() {
                   </div>
                 </div>
 
-                {/* Food Intolerances Input */}
-                <div className="flex flex-col">
-                  <label htmlFor="intolerances" className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-2">
-                    Do you have any food intolerances?
-                  </label>
-                  <textarea
-                    id="intolerances"
-                    value={intolerances}
-                    onChange={(e) => setIntolerances(e.target.value)}
-                    placeholder="E.g. vegetarian, nut allergies, gluten-free (optional)"
-                    rows={3}
-                    className="w-full bg-white border border-border hover:border-accent/40 focus:border-accent px-4 py-3 rounded-lg text-sm transition-premium outline-none placeholder:text-text-secondary/40 resize-none"
-                    disabled={isSubmitting}
-                  />
-                </div>
-
                 {/* Validation message */}
                 {validationError && (
-                  <p className="text-xs text-rose-500 font-medium bg-rose-50 border border-rose-100 rounded-lg px-4 py-2.5">
+                  <p className="text-xs text-rose-200 font-medium bg-rose-500/10 border border-rose-300/30 rounded-lg px-4 py-2.5">
                     {validationError}
                   </p>
                 )}
@@ -186,7 +189,7 @@ export default function RSVPForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-accent hover:bg-accent-hover text-white text-sm font-semibold select-none shadow-md shadow-accent/15 hover:shadow-lg disabled:opacity-75 disabled:cursor-not-allowed transition-premium"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#e3c984] hover:brightness-105 text-maroon text-sm font-semibold select-none shadow-lg shadow-black/25 hover:shadow-xl disabled:opacity-75 disabled:cursor-not-allowed transition-premium"
                 >
                   {isSubmitting ? (
                     <>
@@ -203,19 +206,19 @@ export default function RSVPForm() {
               </form>
             ) : (
               <div className="flex flex-col items-center text-center py-6">
-                <div className="w-16 h-16 flex items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-500 mb-6 shadow-sm">
+                <div className="w-16 h-16 flex items-center justify-center rounded-full bg-emerald-400/10 border border-emerald-300/30 text-emerald-300 mb-6 shadow-sm">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="font-serif italic text-2xl text-accent font-medium mb-3">
+                <h3 className="font-serif italic text-2xl text-[#e3c984] font-medium mb-3">
                   Response Submitted!
                 </h3>
-                <p className="text-sm text-text-secondary leading-relaxed font-light mb-8 max-w-sm">
-                  Thank you, <span className="font-semibold text-text-primary">{name}</span>! We have successfully received your RSVP response. We look forward to celebrating with you!
+                <p className="text-sm text-white/75 leading-relaxed font-light mb-8 max-w-sm">
+                  Thank you, <span className="font-semibold text-[#e3c984]">{name}</span>! We have successfully received your RSVP response. We look forward to celebrating with you!
                 </p>
 
                 <button
                   onClick={handleEdit}
-                  className="px-5 py-2.5 rounded-full border border-border text-text-secondary text-xs hover:text-text-primary hover:bg-white transition-premium"
+                  className="px-5 py-2.5 rounded-full border border-white/25 text-white/70 text-xs hover:text-maroon hover:bg-[#e3c984] hover:border-[#e3c984] transition-premium"
                 >
                   Edit Response
                 </button>

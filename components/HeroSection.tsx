@@ -13,20 +13,20 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ChevronDown } from "lucide-react";
 
-const BG_SRC = "/alexa-richard-wedding/main-bg-blur.webp";
-const INTRO_TYPO_SRC = "/alexa-richard-wedding/intro-typo.webp";
-const NAMES_SKY_SRC = "/alexa-richard-wedding/hero-names-sky.webp";
+const BG_SRC = "/main-bg-blur.webp";
+const INTRO_TYPO_SRC = "/intro-typo.webp";
+const NAMES_SKY_SRC = "/hero-names-sky.webp";
 
 // Lantern layers — full-canvas cutouts sharing the hero's 9:16 frame, each
 // holding one or two lanterns. Each of the 5 source images is reused twice
 // (10 flying lanterns total) with its own horizontal lane, flight speed and
 // phase so the sky reads as busy and no two lanterns move in lockstep.
 const BASE_LANTERN_SRCS = [
-  "/alexa-richard-wedding/lantern-1.webp",
-  "/alexa-richard-wedding/lantern-2.webp",
-  "/alexa-richard-wedding/lantern-3.webp",
-  "/alexa-richard-wedding/lantern-4.webp",
-  "/alexa-richard-wedding/lantern-5.webp",
+  "/lantern-1.webp",
+  "/lantern-2.webp",
+  "/lantern-3.webp",
+  "/lantern-4.webp",
+  "/lantern-5.webp",
 ];
 const LANTERN_INSTANCES = [
   { src: BASE_LANTERN_SRCS[0], flight: 34, phase: 0.02, xShift: -16 },
@@ -43,6 +43,11 @@ const LANTERN_INSTANCES = [
 
 // How long the blur + typo intro holds before dissolving to the sharp hero
 const INTRO_HOLD = 2.25;
+
+// How far down the lanterns begin their flight (percent of frame height).
+// Higher = they fade in lower on screen. ~40 places them around center,
+// clear of the names text.
+const LANTERN_START_Y = 40;
 
 const COVER_IMG: React.CSSProperties = {
   position: "absolute",
@@ -85,7 +90,13 @@ export default function HeroSection() {
         const { flight, phase, xShift } = LANTERN_INSTANCES[i];
         gsap.set(el, { xPercent: xShift });
 
-        const tl = gsap.timeline({ repeat: -1, delay: -phase * flight });
+        // Lanterns begin around center (LANTERN_START_Y down) and rise to
+        // -75% (just past off-screen). The path grew from 75% to travel%, so
+        // scale the duration to keep each lantern's original slow drift speed.
+        const travel = LANTERN_START_Y + 75;
+        const duration = flight * (travel / 75);
+
+        const tl = gsap.timeline({ repeat: -1, delay: -phase * duration });
         tl.fromTo(
           el,
           { opacity: 0 },
@@ -93,10 +104,8 @@ export default function HeroSection() {
           0
         ).fromTo(
           el,
-          { yPercent: 0 },
-          // -75% is just past off-screen for every lantern position — a
-          // shorter cycle keeps more lanterns in view at once
-          { yPercent: -75, duration: flight, ease: "none" },
+          { yPercent: LANTERN_START_Y },
+          { yPercent: -75, duration, ease: "none" },
           0
         );
         gsap.to(el, {

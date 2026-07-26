@@ -56,7 +56,7 @@ export default function Home() {
         <div className="relative">
           <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
             <img
-              src="/alexa-richard-wedding/combined-first-page-bg.webp"
+              src="/combined-first-page-bg.webp"
               alt=""
               aria-hidden="true"
               draggable={false}
